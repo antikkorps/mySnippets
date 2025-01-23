@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  hashedPassword String
+  name           String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  snippets       Snippet[]
+  folders        Folder[]
+}
+
+model Snippet {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  content     String
+  language    String     // Le langage de programmation du snippet
+  isPublic    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folderId    String?
+  folder      Folder?    @relation(fields: [folderId], references: [id])
+  tags        Tag[]
+  stars       Int        @default(0)
+  version     Int        @default(1)
+  history     History[]
+
+  @@index([userId])
+  @@index([language])
+  @@index([title, description])
+}
+
+model Folder {
+  id        String    @id @default(cuid())
+  name      String
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentId  String?   // Pour les sous-dossiers
+  parent    Folder?   @relation("FolderToFolder", fields: [parentId], references: [id])
+  children  Folder[]  @relation("FolderToFolder")
+  snippets  Snippet[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([name, userId, parentId])
+  @@index([userId])
+}
+
+model Tag {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  snippets Snippet[]
+  color    String?   // Code couleur hexadécimal
+
+  @@index([name])
+}
+
+model History {
+  id        String   @id @default(cuid())
+  content   String
+  version   Int
+  createdAt DateTime @default(now())
+  snippetId String
+  snippet   Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@index([snippetId])
+}
