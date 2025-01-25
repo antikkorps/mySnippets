@@ -1,4 +1,3 @@
-// app/routes/login.tsx
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"

@@ -30,6 +30,16 @@ export async function getUserSession(request: Request) {
   return session.get("userId")
 }
 
+export async function getUser(request: Request) {
+  const userId = await getUserSession(request)
+  if (!userId) return null
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  })
+  return user
+}
+
 export async function requireUserId(
   request: Request,
   redirectTo: string = new URL(request.url).pathname

@@ -1,13 +1,16 @@
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node"
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+  useLoaderData,
+} from "@remix-run/react"
+import { getUser } from "~/services/auth.server"
+import MainLayout from "./components/MainLayout"
 
-import "./tailwind.css";
+import "./tailwind.css"
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -20,9 +23,15 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
-];
+]
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const user = await getUser(request)
+  return Response.json({ user })
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { user } = useLoaderData<typeof loader>()
   return (
     <html lang="en">
       <head>
@@ -32,14 +41,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        {user ? <MainLayout>{children}</MainLayout> : children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }
