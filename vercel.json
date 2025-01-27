@@ -5,7 +5,7 @@
   "installCommand": "npm install",
   "outputDirectory": "build/client",
   "functions": {
-    "api/**/*.js": {
+    "build/server/**/*.js": {
       "maxDuration": 60,
       "memory": 1024
     }
