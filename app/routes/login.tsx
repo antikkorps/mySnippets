@@ -2,7 +2,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import { createUserSession, getUserSession, verifyLogin } from "~/services/auth.server"
-import { Code2 } from "lucide-react"
+import { Code2 } from "../utils/icon"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await getUserSession(request)
@@ -49,15 +49,22 @@ export default function LoginPage() {
             </div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Sign in to your account</p>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Welcome back
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Sign in to your account
+            </p>
           </div>
         </div>
 
         <Form method="post" className="space-y-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Email address
               </label>
               <div className="mt-1 relative">
@@ -76,21 +83,35 @@ export default function LoginPage() {
                 />
                 {actionData?.errors?.email && (
                   <div className="absolute right-0 pr-3 flex items-center pointer-events-none h-full top-0">
-                    <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-red-500"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                 )}
               </div>
               {actionData?.errors?.email && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500" id="email-error">
+                <p
+                  className="mt-2 text-sm text-red-600 dark:text-red-500"
+                  id="email-error"
+                >
                   {actionData.errors.email}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Password
               </label>
               <div className="mt-1 relative">
@@ -108,14 +129,25 @@ export default function LoginPage() {
                 />
                 {actionData?.errors?.password && (
                   <div className="absolute right-0 pr-3 flex items-center pointer-events-none h-full top-0">
-                    <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-red-500"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                 )}
               </div>
               {actionData?.errors?.password && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500" id="password-error">
+                <p
+                  className="mt-2 text-sm text-red-600 dark:text-red-500"
+                  id="password-error"
+                >
                   {actionData.errors.password}
                 </p>
               )}
