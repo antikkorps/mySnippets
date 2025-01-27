@@ -1,7 +1,6 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
-  serverDependenciesToBundle: ["lucide-react"],
   future: {
     unstable_postcss: true,
     v2_errorBoundary: true,

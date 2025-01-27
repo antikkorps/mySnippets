@@ -25,13 +25,4 @@ export default defineConfig({
     exclude: ["@mapbox/node-pre-gyp"],
     include: ["lucide-react"],
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          "lucide-icons": ["lucide-react"],
-        },
-      },
-    },
-  },
 })
