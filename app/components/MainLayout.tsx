@@ -1,6 +1,5 @@
-import { Code2, LogOut, Menu, Search, Settings, User } from "lucide-react"
-import type { ReactNode } from "react"
 import { Form } from "@remix-run/react"
+import type { ReactNode } from "react"
 import { useState } from "react"
 
 interface MainLayoutProps {
@@ -18,22 +17,17 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"
-          >
-            <Menu size={20} />
-          </button>
+          ></button>
           <div className="flex items-center space-x-2">
-            <Code2 size={24} className="text-blue-600" />
-            <span className="text-xl font-semibold dark:text-gray-200">SnippetManager</span>
+            <span className="text-xl font-semibold dark:text-gray-200">
+              SnippetManager
+            </span>
           </div>
         </div>
 
         {/* Search bar */}
         <div className="flex-1 max-w-2xl mx-4">
           <div className="relative">
-            <Search
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={18}
-            />
             <input
               type="text"
               placeholder="Rechercher un snippet..."
@@ -44,22 +38,15 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
         {/* User menu */}
         <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200">
-            <Settings size={20} />
-          </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200">
-            <User size={20} />
-          </button>
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"></button>
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"></button>
           <Form action="/logout" method="post">
-            <button 
+            <button
               type="submit"
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-red-600"
-            >
-              <LogOut size={20} />
-            </button>
+            ></button>
           </Form>
         </div>
-
       </header>
 
       {/* Main content */}
@@ -86,7 +73,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </aside>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-6">{children}</main>
+        <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-6">
+          {children}
+        </main>
       </div>
     </div>
   )

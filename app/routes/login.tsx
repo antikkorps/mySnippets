@@ -2,7 +2,6 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
 import { createUserSession, getUserSession, verifyLogin } from "~/services/auth.server"
-import { Code2 } from "../utils/icon"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await getUserSession(request)
@@ -44,9 +43,7 @@ export default function LoginPage() {
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all">
         <div className="mb-8 text-center space-y-4">
           <div className="flex justify-center">
-            <div className="p-3 bg-blue-50 dark:bg-gray-700 rounded-xl">
-              <Code2 size={40} className="text-blue-600 dark:text-blue-400" />
-            </div>
+            <div className="p-3 bg-blue-50 dark:bg-gray-700 rounded-xl"></div>
           </div>
           <div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
