@@ -16,6 +16,7 @@
     "@remix-run/node": "^2.15.2",
     "@remix-run/react": "^2.15.2",
     "@remix-run/serve": "^2.15.2",
+    "@remix-run/vercel": "^1.19.3",
     "bcrypt": "^5.1.1",
     "isbot": "^4.1.0",
     "lucide-react": "^0.474.0",
