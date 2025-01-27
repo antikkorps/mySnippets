@@ -4,4 +4,8 @@ module.exports = {
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
   ignoredRouteFiles: ["**/.*"],
   serverDependenciesToBundle: ["lucide-react"],
+  // Ajout du preset Vercel
+  future: {
+    unstable_postcss: true,
+  },
 }
