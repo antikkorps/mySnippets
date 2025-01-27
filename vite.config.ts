@@ -23,6 +23,5 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: ["@mapbox/node-pre-gyp"],
-    include: ["lucide-react"],
   },
 })
