@@ -1,0 +1,6 @@
+{
+  "buildCommand": "remix build",
+  "devCommand": "remix dev",
+  "framework": "remix",
+  "outputDirectory": "build"
+}
