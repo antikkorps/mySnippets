@@ -3,5 +3,11 @@
   "devCommand": "npm run dev",
   "framework": "remix",
   "installCommand": "npm install",
-  "outputDirectory": "build/client"
+  "outputDirectory": "build/client",
+  "functions": {
+    "build/server/**/*.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  }
 }
