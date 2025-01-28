@@ -1,4 +1,5 @@
 import { Form } from "@remix-run/react"
+import { LogOut, Menu, Settings, User } from "lucide-react"
 import type { ReactNode } from "react"
 import { useState } from "react"
 
@@ -17,7 +18,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"
-          ></button>
+          >
+            <Menu className="w-6 h-6" />
+          </button>
           <div className="flex items-center space-x-2">
             <span className="text-xl font-semibold dark:text-gray-200">
               SnippetManager
@@ -38,13 +41,19 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
         {/* User menu */}
         <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"></button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200"></button>
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200">
+            <Settings className="w-6 h-6" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg dark:text-gray-200">
+            <User className="w-6 h-6" />
+          </button>
           <Form action="/logout" method="post">
             <button
               type="submit"
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-red-600"
-            ></button>
+            >
+              <LogOut className="w-6 h-6" />
+            </button>
           </Form>
         </div>
       </header>
