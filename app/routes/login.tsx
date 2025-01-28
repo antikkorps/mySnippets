@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { Form, useActionData } from "@remix-run/react"
+import { VscCode } from "react-icons/vsc"
 import { createUserSession, getUserSession, verifyLogin } from "~/services/auth.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -39,24 +40,26 @@ export default function LoginPage() {
   const actionData = useActionData<typeof action>()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-8 transform transition-all">
-        <div className="mb-8 text-center space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4 py-8 sm:p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-4 sm:p-8 transform transition-all">
+        <div className="mb-6 sm:mb-8 text-center space-y-3 sm:space-y-4">
           <div className="flex justify-center">
-            <div className="p-3 bg-blue-50 dark:bg-gray-700 rounded-xl"></div>
+            <div className="p-2 sm:p-3 bg-blue-50 dark:bg-gray-700 rounded-xl">
+              <VscCode className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" />
+            </div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
               Welcome back
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 sm:mt-2">
               Sign in to your account
             </p>
           </div>
         </div>
 
         <Form method="post" className="space-y-6">
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -73,8 +76,8 @@ export default function LoginPage() {
                   autoComplete="email"
                   aria-invalid={actionData?.errors?.email ? true : undefined}
                   aria-describedby="email-error"
-                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-3 bg-white dark:bg-gray-700 
-                    text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-700 
+                    text-gray-700 dark:text-gray-200 text-sm sm:text-base placeholder-gray-400 dark:placeholder-gray-500
                     focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-all"
                   placeholder="you@example.com"
                 />
@@ -153,12 +156,26 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium 
+            className="w-full flex justify-center py-2 sm:py-3 px-3 sm:px-4 border border-transparent rounded-lg shadow-sm text-sm sm:text-base font-medium 
               text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-              transition-colors duration-200 ease-in-out transform hover:scale-[1.02]"
+              transition-colors duration-200 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
           >
             Sign in
           </button>
+          <div className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-2">
+            <p>
+              New to SnippetManager?{" "}
+              <a
+                href="/register"
+                className="text-blue-500 hover:underline dark:text-blue-400"
+              >
+                Sign up
+              </a>
+            </p>
+            <a href="/" className="text-blue-500 hover:underline dark:text-blue-400">
+              Retour à l&apos;accueil
+            </a>
+          </div>
         </Form>
       </div>
     </div>

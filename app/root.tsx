@@ -31,7 +31,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { user } = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>()
+  const user = data?.user
   return (
     <html lang="en" className="dark">
       <head>
