@@ -27,23 +27,23 @@ export default function Index() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation */}
-        <nav className="py-6">
+        <nav className="py-4 sm:py-6">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               SnippetManager
             </div>
             <div>
               {user ? (
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Go to Dashboard
                 </Link>
               ) : (
                 <Link
                   to="/login"
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Sign in
                 </Link>
@@ -53,13 +53,13 @@ export default function Index() {
         </nav>
 
         {/* Hero Section */}
-        <div className="py-6 sm:py-24">
+        <div className="py-8 sm:py-24">
           <div className="text-center">
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight font-extrabold text-gray-900 dark:text-white">
               <span className="block">Manage Your Code Snippets</span>
               <span className="block text-blue-600">Like a Pro</span>
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 dark:text-gray-400 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mt-3 max-w-md mx-auto text-sm sm:text-base md:text-lg lg:text-xl text-gray-500 dark:text-gray-400 sm:mt-5">
               Store, organize, and share your code snippets efficiently. Access them from
               anywhere, anytime.
             </p>
@@ -67,14 +67,14 @@ export default function Index() {
               {user ? (
                 <Link
                   to="/dashboard"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                 >
                   View Your Snippets
                 </Link>
               ) : (
                 <Link
                   to="/login"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                 >
                   Get Started
                 </Link>
@@ -84,10 +84,10 @@ export default function Index() {
         </div>
 
         {/* Feature Section */}
-        <div className="py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+        <div className="py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
           <div className="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <h2 className="sr-only">Features</h2>
-            <div className="grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-y-8 sm:gap-y-12 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((feature) => (
                 <div key={feature.name} className="relative">
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
