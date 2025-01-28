@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node"
+import { json, type LinksFunction, type LoaderFunctionArgs } from "@remix-run/node"
 import {
   Links,
   Meta,
@@ -27,7 +27,7 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request)
-  return Response.json({ user })
+  return json({ user })
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
