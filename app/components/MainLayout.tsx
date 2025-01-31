@@ -1,14 +1,43 @@
-import { Form } from "@remix-run/react"
+import { Form, Link, useLocation } from "@remix-run/react"
 import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
-import { FiLogOut, FiMenu, FiSettings, FiUser } from "react-icons/fi"
+import {
+  FiChevronDown,
+  FiChevronRight,
+  FiCode,
+  FiFolder,
+  FiLogOut,
+  FiMenu,
+  FiPlus,
+  FiSettings,
+  FiUser,
+} from "react-icons/fi"
 
 interface MainLayoutProps {
   children: ReactNode
+  folders?: {
+    id: string
+    name: string
+    snippets: {
+      id: string
+      title: string
+    }[]
+  }[]
 }
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = ({ children, folders = [] }: MainLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [expandedFolder, setExpandedFolder] = useState<string | null>(null)
+  const location = useLocation()
+
+  // Synchroniser l'état d'expansion avec l'URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const folderId = searchParams.get("folderId")
+    if (folderId) {
+      setExpandedFolder(folderId)
+    }
+  }, [location.search])
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,6 +53,10 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  const toggleFolder = (folderId: string) => {
+    setExpandedFolder(expandedFolder === folderId ? null : folderId)
+  }
+
   return (
     <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -36,9 +69,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             <FiMenu className="h-6 w-6" />
           </button>
           <div className="flex items-center space-x-2">
-            <span className="text-xl font-semibold dark:text-gray-200">
+            <Link to="/" className="text-xl font-semibold dark:text-gray-200">
               SnippetManager
-            </span>
+            </Link>
           </div>
         </div>
 
@@ -83,18 +116,97 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           >
             <div className="p-4">
               <nav className="space-y-1">
-                <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200">
-                  Mes Snippets
+                {/* Folders Section */}
+                <div className="space-y-1">
+                  <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200 flex items-center justify-between">
+                    <span className="flex items-center">
+                      <FiFolder className="mr-2" />
+                      Dossiers
+                    </span>
+                    <Link
+                      to="/folders/new"
+                      className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                      title="Nouveau dossier"
+                    >
+                      <FiPlus className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  {/* Folder List */}
+                  <div className="ml-2 space-y-1">
+                    {folders.map((folder) => (
+                      <div key={folder.id} className="space-y-1">
+                        <button
+                          onClick={() => toggleFolder(folder.id)}
+                          className={`w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200 flex items-center justify-between
+                            ${
+                              expandedFolder === folder.id
+                                ? "bg-gray-100 dark:bg-gray-700"
+                                : ""
+                            }`}
+                        >
+                          <span className="flex items-center">
+                            {expandedFolder === folder.id ? (
+                              <FiChevronDown className="mr-2 h-4 w-4 transition-transform" />
+                            ) : (
+                              <FiChevronRight className="mr-2 h-4 w-4 transition-transform" />
+                            )}
+                            {folder.name}
+                          </span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {folder.snippets.length}
+                          </span>
+                        </button>
+
+                        {/* Snippets in Folder */}
+                        {expandedFolder === folder.id && (
+                          <div className="ml-4 space-y-1">
+                            {folder.snippets.map((snippet) => (
+                              <Link
+                                key={snippet.id}
+                                to={`/snippets?folderId=${folder.id}&snippetId=${snippet.id}`}
+                                className={`w-full block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200 flex items-center
+                                  ${
+                                    location.search.includes(`snippetId=${snippet.id}`)
+                                      ? "bg-gray-100 dark:bg-gray-700"
+                                      : ""
+                                  }`}
+                              >
+                                <FiCode className="mr-2 h-4 w-4" />
+                                <span className="truncate">{snippet.title}</span>
+                              </Link>
+                            ))}
+                            <Link
+                              to={`/snippets/new?folderId=${folder.id}`}
+                              className="w-full block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200 flex items-center text-blue-600 dark:text-blue-400"
+                            >
+                              <FiPlus className="mr-2 h-4 w-4" />
+                              <span>Nouveau snippet</span>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200">
-                  Dossiers
-                </div>
-                <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200">
+
+                {/* Other navigation items */}
+                <Link
+                  to="/snippets/recent"
+                  className="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200"
+                >
+                  Récents
+                </Link>
+                <Link
+                  to="/tags"
+                  className="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer dark:text-gray-200"
+                >
                   Tags
-                </div>
+                </Link>
               </nav>
             </div>
           </aside>
+
           {/* Overlay for mobile */}
           {sidebarOpen && (
             <button
