@@ -18,6 +18,7 @@ export const sessionStorage = createCookieSessionStorage({
 export async function createUserSession(userId: string, redirectTo: string) {
   const session = await sessionStorage.getSession()
   session.set("userId", userId)
+  console.log("Creating session for user:", userId) // Log pour debug
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await sessionStorage.commitSession(session),
@@ -27,7 +28,10 @@ export async function createUserSession(userId: string, redirectTo: string) {
 
 export async function getUserSession(request: Request) {
   const session = await sessionStorage.getSession(request.headers.get("Cookie"))
+  const userId = session.get("userId")
+  console.log("Session user ID:", userId) // Log pour debug
   return session.get("userId")
+  return userId
 }
 
 export async function getUser(request: Request) {
@@ -36,8 +40,34 @@ export async function getUser(request: Request) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
+    include: {
+      folders: {
+        select: {
+          id: true,
+          name: true,
+          snippets: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+        orderBy: {
+          name: "asc",
+        },
+      },
+    },
   })
+
   return user
+    ? {
+        ...user,
+        folders: user.folders.map((folder) => ({
+          ...folder,
+          snippets: folder.snippets || [],
+        })),
+      }
+    : null
 }
 
 export async function requireUserId(
