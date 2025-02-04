@@ -1,19 +1,18 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { useEffect, useState } from "react"
 import SnippetEditorLayout from "~/components/SnippetEditorLayout"
 import SnippetList from "~/components/SnippetsList"
 import { getUser } from "~/services/auth.server"
 import { prisma } from "~/services/prisma.server"
-import type { LoaderData, Snippet } from "~/types/snippet"
+import type { SnippetWithTags } from "~/types/snippet"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const folderId = url.searchParams.get("folderId")
 
   if (!folderId) {
-    return json<LoaderData>({ snippets: [], folderName: "" })
+    return { snippets: [], folderName: "" }
   }
 
   const user = await getUser(request)
@@ -47,20 +46,30 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw new Error("Folder not found")
   }
 
-  return json<LoaderData>({
-    snippets: folder.snippets,
-    folderName: folder.name,
-  })
+  return { snippets: folder.snippets, folderName: folder.name }
 }
 
 export default function SnippetsPage() {
   const { snippets, folderName } = useLoaderData<typeof loader>()
-  const [currentSnippet, setCurrentSnippet] = useState<Snippet | undefined>(undefined)
+  const [currentSnippet, setCurrentSnippet] = useState<SnippetWithTags | undefined>(
+    undefined
+  )
 
   // Mettre à jour le snippet courant quand les snippets changent
   useEffect(() => {
     if (snippets.length > 0 && !currentSnippet) {
-      setCurrentSnippet(snippets[0])
+      setCurrentSnippet({
+        ...snippets[0],
+        isPublic: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: "",
+        folderId: "",
+        folder: "",
+        user: "",
+        stars: 0,
+        version: 1,
+      })
     }
   }, [snippets, currentSnippet])
 
@@ -76,7 +85,6 @@ export default function SnippetsPage() {
         body: JSON.stringify({ content }),
       })
 
-      // Mettre à jour le snippet localement
       setCurrentSnippet({
         ...currentSnippet,
         content,
@@ -86,7 +94,6 @@ export default function SnippetsPage() {
     }
   }
 
-  // Si aucun snippet n'est sélectionné, afficher un message
   if (snippets.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center text-gray-500">
@@ -98,11 +105,33 @@ export default function SnippetsPage() {
   return (
     <>
       <SnippetList
-        snippets={snippets}
+        snippets={snippets.map((snippet) => ({
+          ...snippet,
+          isPublic: false,
+          userId: "",
+          folderId: null,
+          stars: 0,
+          version: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }))}
         selectedSnippetId={currentSnippet?.id}
         onSnippetSelect={(id) => {
           const snippet = snippets.find((s) => s.id === id)
-          setCurrentSnippet(snippet)
+          if (snippet) {
+            setCurrentSnippet({
+              ...snippet,
+              isPublic: false,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              userId: "",
+              folderId: "",
+              folder: "",
+              user: "",
+              stars: 0,
+              version: 1,
+            })
+          }
         }}
         folderName={folderName}
       />

@@ -1,20 +1,46 @@
-// types/snippet.ts
+import type { Prisma } from "@prisma/client"
+
+export type PrismaSnippet = Prisma.SnippetGetPayload<{
+  include: {
+    tags: {
+      select: {
+        name: true
+        color: true
+      }
+    }
+  }
+}>
 export interface Tag {
   name: string
-  color?: string
+  color?: string | null
 }
 
-export interface Snippet {
+export interface Snippet extends Omit<PrismaSnippet, "tags"> {
+  tags: Tag[]
+}
+export type SnippetWithTags = {
   id: string
   title: string
-  description?: string
   content: string
   language: string
-  tags?: Tag[]
+  description: string | null
+  tags: {
+    name: string
+    color: string | null
+  }[]
+  isPublic: boolean
+  createdAt: Date
+  updatedAt: Date
+  user: string
+  userId: string
+  folder: string
+  folderId: string | null
+  stars: number
+  version: number
 }
 
 export interface SnippetListProps {
-  snippets: Snippet[]
+  snippets: SnippetWithTags[]
   selectedSnippetId?: string
   onSnippetSelect: (id: string) => void
   folderName: string

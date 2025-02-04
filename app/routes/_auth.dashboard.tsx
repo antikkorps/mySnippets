@@ -1,11 +1,11 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { json, redirect } from "@remix-run/node"
+import { redirect } from "@remix-run/node"
 import { getUser } from "~/services/auth.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request)
   if (!user) return redirect("/login")
-  return json({ user })
+  return { user }
 }
 
 export default function DashboardIndex() {
