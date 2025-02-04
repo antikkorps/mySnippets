@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from "@remix-run/node"
+import { redirect, type ActionFunctionArgs } from "@remix-run/node"
 import { logout } from "~/services/auth.server"
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -6,5 +6,6 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function LogoutRoute() {
+  redirect("/")
   return null
 }

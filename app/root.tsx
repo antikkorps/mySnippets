@@ -6,11 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useRouteError,
 } from "@remix-run/react"
 import { getUser } from "~/services/auth.server"
-import MainLayout from "./components/MainLayout"
 
 import "./tailwind.css"
 
@@ -33,8 +31,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const data = useLoaderData<typeof loader>()
-  const user = data?.user
   return (
     <html lang="en" className="dark">
       <head>
@@ -44,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body suppressHydrationWarning className="dark:bg-gray-900">
-        {user ? <MainLayout folders={[]}>{children}</MainLayout> : children}
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>

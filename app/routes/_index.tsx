@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
-import { json, redirect } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 import { getUser } from "~/services/auth.server"
 
 export const meta: MetaFunction = () => {
@@ -16,8 +15,9 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request)
-  if (user) return redirect("/dashboard")
-  return json({ user })
+  console.log("depuis loader", user)
+
+  return { user }
 }
 
 export default function Index() {
@@ -32,21 +32,39 @@ export default function Index() {
             <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               SnippetManager
             </div>
-            <div>
+            <div className="flex gap-3">
               {user ? (
-                <Link
-                  to="/dashboard"
-                  className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  Go to Dashboard
-                </Link>
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Dashboard
+                  </Link>
+                  <Form action="/logout" method="post">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </Form>
+                </>
               ) : (
-                <Link
-                  to="/login"
-                  className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  Sign in
-                </Link>
+                <>
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Get Started
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
+                    Sign in
+                  </Link>
+                </>
               )}
             </div>
           </div>
@@ -73,7 +91,7 @@ export default function Index() {
                 </Link>
               ) : (
                 <Link
-                  to="/login"
+                  to="/register"
                   className="w-full flex items-center justify-center px-6 sm:px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                 >
                   Get Started
